@@ -1,0 +1,32 @@
+name: Gerar e Publicar XML do Feed
+
+on:
+  push:
+    paths:
+      - 'Produto da loja yampi.xlsx'
+  schedule:
+    - cron: '0 10 * * *'
+
+jobs:
+  gerar-feed:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do repositório
+      uses: actions/checkout@v3
+
+    - name: Instalar dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas openpyxl
+
+    - name: Gerar XML a partir da planilha
+      run: python gerar_feed.py
+
+    - name: Commitar e fazer push do XML
+      run: |
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git add feed_amelie_produtos.xml
+        git commit -m "🛠️ Feed atualizado automaticamente" || echo "Sem alterações"
+        git push
