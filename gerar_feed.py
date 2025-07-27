@@ -2,16 +2,22 @@ import pandas as pd
 from xml.etree.ElementTree import Element, SubElement, tostring
 import xml.dom.minidom as minidom
 
+# Carrega a planilha
 df = pd.read_excel("Produto da loja yampi.xlsx")
 
+# Seleciona e filtra os campos obrigatórios
 df = df[['id', 'nome', 'seo_descricao', 'link_produto', 'link_foto_principal', 'valor_de_presente']]
-df = df.dropna(subset=['valor_de_presente', 'link_produto'])
+df = df.dropna(subset=['id', 'nome', 'link_produto', 'link_foto_principal', 'valor_de_presente'])
+
+# Converte tipos corretamente e trata campos vazios
 df['seo_descricao'] = df['seo_descricao'].fillna("")
 df['nome'] = df['nome'].astype(str)
+df['valor_de_presente'] = df['valor_de_presente'].astype(float)
 
-# Definindo preços originais simulados (promoção: 10% acima do valor atual)
-df['preco_normal'] = df['valor_de_presente'] * 1.10
+# Simula preço cheio (10% acima do promocional)
+df['preco_normal'] = (df['valor_de_presente'] * 1.10).round(2)
 
+# Cria estrutura XML
 rss = Element('rss', version="2.0", attrib={'xmlns:g': "http://base.google.com/ns/1.0"})
 channel = SubElement(rss, 'channel')
 SubElement(channel, 'title').text = "Amelie Flores & Afins - Produtos"
@@ -30,6 +36,7 @@ for _, row in df.iterrows():
     SubElement(item, 'g:condition').text = "new"
     SubElement(item, 'g:availability').text = "in stock"
 
+# Salva XML formatado
 xml_str = minidom.parseString(tostring(rss)).toprettyxml(indent="  ")
 with open("feed_amelie_produtos.xml", "w", encoding="utf-8") as f:
     f.write(xml_str)
