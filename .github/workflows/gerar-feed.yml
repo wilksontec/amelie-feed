@@ -29,6 +29,6 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add feed_amelie_produtos.xml
+          git add feed_amelie_produtos.xml feed_facebook.xml
           git commit -m "🛠️ Feed atualizado automaticamente" || echo "Sem alterações"
           git push origin HEAD:main
