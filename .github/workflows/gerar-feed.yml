@@ -12,11 +12,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do repositório com autenticação
+      - name: Clonar repositório com token
         run: |
           git config --global url."https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/".insteadOf https://github.com/
           git clone https://github.com/wilksontec/amelie-feed.git .
-
+      
       - name: Instalar dependências
         run: |
           python -m pip install --upgrade pip
@@ -31,4 +31,4 @@ jobs:
           git config user.email "github-actions@github.com"
           git add feed_amelie_produtos.xml
           git commit -m "🛠️ Feed atualizado automaticamente" || echo "Sem alterações"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/wilksontec/amelie-feed.git HEAD:main
+          git push origin HEAD:main
