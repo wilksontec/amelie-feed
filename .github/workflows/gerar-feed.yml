@@ -32,4 +32,4 @@ jobs:
           git add feed_amelie_produtos.xml
           git commit -m "🛠️ Feed atualizado automaticamente" || echo "Sem alterações"
           git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/wilksontec/amelie-feed.git
-          git push origin HEAD:main
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/wilksontec/amelie-feed.git HEAD:main
