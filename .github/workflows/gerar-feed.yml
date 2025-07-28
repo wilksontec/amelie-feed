@@ -12,11 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do repositório
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          persist-credentials: false
+      - name: Checkout do repositório com autenticação
+        run: |
+          git config --global url."https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/".insteadOf https://github.com/
+          git clone https://github.com/wilksontec/amelie-feed.git .
 
       - name: Instalar dependências
         run: |
