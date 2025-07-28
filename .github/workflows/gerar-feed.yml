@@ -5,7 +5,7 @@ on:
     paths:
       - 'Produto da loja yampi.xlsx'
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 10 * * *'  # Executa diariamente às 10h UTC (7h no Brasil)
 
 jobs:
   gerar-feed:
