@@ -5,7 +5,7 @@ on:
     paths:
       - 'Produto da loja yampi.xlsx'
   schedule:
-    - cron: '0 10 * * *'  # Executa diariamente às 10h UTC (7h no Brasil)
+    - cron: '0 10 * * *'
 
 jobs:
   gerar-feed:
@@ -16,7 +16,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_TOKEN }}
-          repository: wilksontec/amelie-feed
 
       - name: Instalar dependências
         run: |
